@@ -1,5 +1,6 @@
 import sbt._
 import Keys._
+import com.typesafe.sbt.osgi._
 
 
 object Build extends Build with DocSupport {
@@ -30,6 +31,7 @@ object Build extends Build with DocSupport {
   lazy val sprayCaching = Project("spray-caching", file("spray-caching"))
     .dependsOn(sprayUtil)
     .settings(sprayModuleSettings: _*)
+    .settings(SbtOsgi.osgiSettings: _*)
     .settings(libraryDependencies ++=
       provided(akkaActor) ++
       compile(clHashMap) ++
@@ -40,6 +42,7 @@ object Build extends Build with DocSupport {
   lazy val sprayCan = Project("spray-can", file("spray-can"))
     .dependsOn(sprayIO, sprayHttp, sprayUtil)
     .settings(sprayModuleSettings: _*)
+    .settings(SbtOsgi.osgiSettings: _*)
     .settings(libraryDependencies ++=
       provided(akkaActor) ++
       test(akkaTestKit, specs2)
@@ -49,6 +52,7 @@ object Build extends Build with DocSupport {
   lazy val sprayClient = Project("spray-client", file("spray-client"))
     .dependsOn(sprayCan, sprayHttp, sprayHttpx, sprayUtil)
     .settings(sprayModuleSettings: _*)
+    .settings(SbtOsgi.osgiSettings: _*)
     .settings(libraryDependencies ++=
       provided(akkaActor) ++
       test(specs2)
@@ -57,6 +61,7 @@ object Build extends Build with DocSupport {
 
   lazy val sprayHttp = Project("spray-http", file("spray-http"))
     .settings(sprayModuleSettings: _*)
+    .settings(SbtOsgi.osgiSettings: _*)
     .settings(libraryDependencies ++=
       compile(parboiled) ++
       test(specs2)
@@ -66,6 +71,7 @@ object Build extends Build with DocSupport {
   lazy val sprayHttpx = Project("spray-httpx", file("spray-httpx"))
     .dependsOn(sprayHttp, sprayUtil)
     .settings(sprayModuleSettings: _*)
+    .settings(SbtOsgi.osgiSettings: _*)
     .settings(libraryDependencies ++=
       compile(mimepull) ++
       provided(akkaActor, sprayJson, twirlApi, liftJson) ++
@@ -76,6 +82,7 @@ object Build extends Build with DocSupport {
   lazy val sprayIO = Project("spray-io", file("spray-io"))
     .dependsOn(sprayUtil)
     .settings(sprayModuleSettings: _*)
+    .settings(SbtOsgi.osgiSettings: _*)
     .settings(libraryDependencies ++=
       provided(akkaActor, scalaReflect) ++
       test(akkaTestKit, specs2)
@@ -89,6 +96,7 @@ object Build extends Build with DocSupport {
       sprayHttp, sprayHttpx, sprayUtil)
     .settings(sprayModuleSettings: _*)
     .settings(spray.boilerplate.BoilerplatePlugin.Boilerplate.settings: _*)
+    .settings(SbtOsgi.osgiSettings: _*)
     .settings(libraryDependencies ++=
       compile(shapeless) ++
       provided(akkaActor)
@@ -109,6 +117,7 @@ object Build extends Build with DocSupport {
   lazy val sprayServlet = Project("spray-servlet", file("spray-servlet"))
     .dependsOn(sprayHttp, sprayUtil)
     .settings(sprayModuleSettings: _*)
+    .settings(SbtOsgi.osgiSettings: _*)
     .settings(libraryDependencies ++=
       provided(akkaActor, servlet30)
     )
@@ -125,6 +134,7 @@ object Build extends Build with DocSupport {
   lazy val sprayUtil = Project("spray-util", file("spray-util"))
     .settings(sprayModuleSettings: _*)
     .settings(sprayVersionConfGeneration: _*)
+    .settings(SbtOsgi.osgiSettings: _*)
     .settings(libraryDependencies ++=
       provided(akkaActor) ++
       test(akkaTestKit, specs2)
