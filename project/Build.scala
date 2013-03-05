@@ -18,7 +18,7 @@ object Build extends Build with DocSupport {
 
   lazy val root = Project("root",file("."))
     .aggregate(docs, examples, site, sprayCaching, sprayCan, sprayClient, sprayHttp, sprayHttpx,
-      sprayIO, sprayRouting, sprayRoutingTests, sprayServlet, sprayTestKit, sprayUtil)
+      sprayIO, sprayRouting, sprayRoutingTests, sprayServlet, sprayTestKit, sprayUtil, sprayOsgi)
     .settings(basicSettings: _*)
     .settings(noPublishing: _*)
     .settings(moveApiDocsSettings: _*)
@@ -140,6 +140,15 @@ object Build extends Build with DocSupport {
       test(akkaTestKit, specs2)
     )
 
+  lazy val sprayOsgi = Project("spray-osgi", file("spray-osgi"))
+    .dependsOn(sprayUtil, sprayServlet, sprayRouting, sprayIO, sprayHttpx, sprayHttp, sprayCan, sprayCaching, sprayClient)
+    .settings(sprayModuleSettings: _*)
+    .settings(sprayVersionConfGeneration: _*)
+    .settings(SbtOsgi.osgiSettings: _*)
+    .settings(libraryDependencies ++=
+      provided(akkaActor) ++ // TODO: this should probably depend on typesafe config directly
+      provided(osgiCore)
+    )
 
   // -------------------------------------------------------------------------------------------------------------------
   // Site Project

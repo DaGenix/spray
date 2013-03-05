@@ -29,4 +29,5 @@ object Dependencies {
   val mimepull      = "org.jvnet.mimepull"                      %   "mimepull"                    % "1.9.1"
   val pegdown       = "org.pegdown"                             %   "pegdown"                     % "1.2.1"
   val liftJson      = "net.liftweb"                             %% "lift-json"                    % "2.5-M4"
+  val osgiCore      = "org.osgi"                                %   "org.osgi.core"               % "4.3.0"
 }
