@@ -5,3 +5,9 @@ src_managed/
 test-output/
 *.iml
 *.pyc
+
+# Eclipse files
+.cache
+.classpath
+.project
+.settings
